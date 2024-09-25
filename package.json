@@ -13,8 +13,10 @@
     "@graphql-tools/graphql-file-loader": "^8.0.1",
     "@graphql-tools/load": "^8.0.2",
     "apollo-server": "^3.13.0",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "graphql": "^16.9.0",
+    "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "mysql2": "^3.11.3"
   },

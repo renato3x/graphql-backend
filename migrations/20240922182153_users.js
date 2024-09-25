@@ -10,12 +10,6 @@ exports.up = function(knex) {
     table.string('password');
     table.boolean('active').notNullable().defaultTo(true);
     table.timestamp('createdAt').defaultTo(knex.fn.now());
-  }).then(() => {
-    return knex('users').insert([
-      { name: 'João Show', email: 'jshow@empresa.com.br', password: '12345678' },
-      { name: 'Jaime Lannister', email: 'jlann@empresa.com.br', password: '12345678' },
-      { name: 'Gabriela T. Nunes', email: 'gtnunes@empresa.com.br', password: '12345678' },
-    ])
   })
 };
 

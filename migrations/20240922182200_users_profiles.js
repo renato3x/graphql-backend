@@ -9,13 +9,6 @@ exports.up = function(knex) {
     table.foreign('userId').references('users.id');
     table.foreign('profileId').references('profiles.id');
     table.primary(['userId', 'profileId']);
-  }).then(() => {
-    return knex('users_profiles').insert([
-      { userId: 1, profileId: 2 },
-      { userId: 1, profileId: 3 },
-      { userId: 2, profileId: 2 },
-      { userId: 3, profileId: 1 },
-    ]);
   })
 };
 

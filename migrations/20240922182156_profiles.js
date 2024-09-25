@@ -11,7 +11,6 @@ exports.up = function(knex) {
     return knex('profiles').insert([
       { name: 'common', label: 'Common' },
       { name: 'admin', label: 'Administrator' },
-      { name: 'master', label: 'Master' },
     ]);
   })
 };

@@ -1,0 +1,8 @@
+#import User, UserFilter, Profile, ProfileFilter from 'user.graphql'
+
+type Query {
+	users: [User]
+	user(filters: UserFilter!): User
+	profiles: [Profile]
+	profile(filters: ProfileFilter!): Profile
+}

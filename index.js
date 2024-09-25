@@ -1,3 +1,5 @@
+require('dotenv').config(); 
+
 const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader');
 const { loadSchema } = require('@graphql-tools/load');
 const { ApolloServer } = require('apollo-server');

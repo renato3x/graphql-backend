@@ -5,6 +5,7 @@ type User {
 	active: Boolean
 	createdAt: String
 	profiles: [Profile]
+	token: String
 }
 
 input UserInput {
@@ -23,6 +24,11 @@ input RegisterUserInput {
 input UserFilter {
 	id: Int
 	email: String
+}
+
+input UserLoginInput {
+	email: String!
+	password: String!
 }
 
 type Profile {

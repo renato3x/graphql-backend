@@ -20,21 +20,50 @@ const jwt = require('jsonwebtoken');
 */
 
 module.exports = async ({ req }) => {
-  await require('./mock/loggedUser')(req);
+  if (process.env.ENVIRONMENT === 'dev') {
+    await require('./mock/loggedUser')(req);
+  }
 
   const auth = req.headers.authorization;
   const token = (auth?.split(' ') || '')[1] || '';
 
-  let user;
+  let user = null;
 
   if (token) {
     user = jwt.verify(token, process.env.AUTH_SECRET);
   }
 
-  const isAdmin = user.profiles.includes('admin');
+  const isAdmin = user?.profiles?.includes('admin') || false;
+
+  const error = new Error('Access denied');
 
   return {
     user,
-    isAdmin   
+    isAdmin,
+    validateUser() {
+      if (!user) {
+        throw error;
+      }
+    },
+    validateAdmin() {
+      if (!isAdmin) {
+        throw error;
+      }
+    },
+    validateUserFilters(filters) {
+      if (isAdmin) {
+        return;
+      }
+
+      const { id, email } = filters;
+  
+      if (id && user.id != id) {
+        throw error;
+      }
+
+      if (email && user.email != email) {
+        throw error;
+      }
+    }
   }
 }

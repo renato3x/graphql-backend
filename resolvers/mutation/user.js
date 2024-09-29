@@ -17,7 +17,11 @@ module.exports = {
       return await knex('users').select().where({ id: userId }).first();
     });
   },
-  async newUser(_, { data }) {
+  async newUser(_, { data }, ctx) {
+    if (ctx) {
+      ctx.validateAdmin();
+    }
+
     const dataClone = JSON.parse(JSON.stringify(data))
     const profiles = [];
 
@@ -48,7 +52,11 @@ module.exports = {
         return await knex('users').select().where('id', '=', ids[0]).first();
       });
   },
-  async deleteUser(_, { filters }) {
+  async deleteUser(_, { filters }, ctx) {
+    if (ctx) {
+      ctx.validateAdmin();
+    }
+
     const user = await knex('users').select().where(filters).first();
     
     if (user) {
@@ -63,7 +71,11 @@ module.exports = {
 
     return user;
   },
-  async updateUser(_, { filters, data }) {
+  async updateUser(_, { filters, data }, ctx) {
+    if (ctx) {
+      ctx.validateUserFilters(filters);
+    }
+
     const user = await knex('users').select().where(filters).first();
 
     if (user) {
@@ -83,7 +95,7 @@ module.exports = {
         .update(dataClone)
         .where('id', '=', user.id)
         .then(async () => {
-          if (profiles.length > 0) {
+          if (ctx.isAdmin && profiles.length > 0) {
             await knex('users_profiles')
               .delete()
               .where('userId', '=', user.id);

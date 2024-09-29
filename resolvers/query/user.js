@@ -18,12 +18,20 @@ module.exports = {
 
     return await getLoggedUser(user);
   },
-  async users() {
+  async users(_object, _args, ctx) {
+    if (ctx) {
+      ctx.validateAdmin();
+    }
+
     return await knex
       .select('*')
       .from('users');
   },
-  async user(_, { filters }) {
+  async user(_, { filters }, ctx) {
+    if (ctx) {
+      ctx.validateUserFilters(filters);
+    }
+
     return await knex('users')
       .select()
       .where(filters)

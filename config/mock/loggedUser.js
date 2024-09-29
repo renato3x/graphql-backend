@@ -18,6 +18,8 @@ const getUser = async (profileName) => {
 module.exports = async (request) => {
   const user = await getUser('admin');
 
+  console.log('logged user', user);
+
   if (user) {
     const { token } = await getLoggedUser(user);
     request.headers = {

@@ -1,14 +1,22 @@
 const knex = require('../../config/db');
 
 module.exports = {
-  async newProfile(_, { data }) {
+  async newProfile(_, { data }, ctx) {
+    if (ctx) {
+      ctx.validateAdmin();
+    }
+
     return await knex('profiles')
       .insert(data)
       .then(async ([ id ]) => {
         return await knex.select('*').from('profiles').where({ id }).first();
       })
   },
-  async deleteProfile(_, { filters }) {
+  async deleteProfile(_, { filters }, ctx) {
+    if (ctx) {
+      ctx.validateAdmin();
+    }
+
     const profile = await knex.select().from('profiles').where(filters).first();
 
     if (profile) {
@@ -23,7 +31,11 @@ module.exports = {
 
     return profile;
   },
-  async updateProfile(_, { filters, data }) {
+  async updateProfile(_, { filters, data }, ctx) {
+    if (ctx) {
+      ctx.validateAdmin();
+    }
+
     const profile = await knex('profiles').select('*').where(filters).first();
 
     if (profile) {

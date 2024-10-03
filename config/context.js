@@ -57,11 +57,11 @@ module.exports = async ({ req }) => {
 
       const { id, email } = filters;
   
-      if (id && user.id != id) {
+      if (id && user?.id != id) {
         throw error;
       }
 
-      if (email && user.email != email) {
+      if (email && user?.email != email) {
         throw error;
       }
     }
